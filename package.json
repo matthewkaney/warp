@@ -1,0 +1,14 @@
+{
+  "name": "functional-strudel",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Experimental typed functional adaptation of the core Strudel library",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "author": "Alex McLean <alex@slab.org> (https://slab.org)",
+  "license": "AGPL-3.0-or-later",
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  }
+}
