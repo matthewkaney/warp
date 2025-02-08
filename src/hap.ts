@@ -1,7 +1,7 @@
 import { Span } from "./time";
 
 export type Hap<T> = Readonly<{
-  whole: Span;
+  whole?: Span;
   part: Span;
   value: T;
   // context: object; // Skip context for now

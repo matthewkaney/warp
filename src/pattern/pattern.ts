@@ -1,5 +1,5 @@
-import { Time, Span, withSpanTime, spanCycles, wholeCycle } from "./time";
-import { Hap, withSpan } from "./hap";
+import { Time, Span, withSpanTime, spanCycles, wholeCycle } from "../time";
+import { Hap, withSpan } from "../hap";
 
 export type State = Readonly<{
   span: Span;
@@ -7,7 +7,7 @@ export type State = Readonly<{
 
 export interface Pattern<T> {
   query: (state: State) => Hap<T>[];
-  pulse: number;
+  steps: number;
 }
 
 export function splitQueries<T>(pat: Pattern<T>): Pattern<T> {
@@ -46,20 +46,14 @@ export function withHapTime<T>(f: (time: Time) => Time, pat: Pattern<T>) {
   return withHapSpan((span) => withSpanTime(f, span), pat);
 }
 
-export function gap(pulse: number): Pattern<never> {
-  return {
-    query: () => [],
-    pulse,
-  };
-}
-
-export const silence = gap(1);
-
-export function pure<T>(value: T): Pattern<T> {
-  return {
-    query: ({ span }) => spanCycles(span).map((part) => ({ whole: wholeCycle(part.begin), part, value })),
-    pulse: 1,
-  };
+export function withValue<A, B = A>(f: (value: A) => B, pat: Pattern<A>): Pattern<B> {
+  return withHap(
+    (hap) => ({
+      ...hap,
+      value: f(hap.value),
+    }),
+    pat
+  );
 }
 
 export function filterHaps<T>(f: (hap: Hap<T>) => boolean, pat: Pattern<T>): Pattern<T> {
