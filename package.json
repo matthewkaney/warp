@@ -2,6 +2,7 @@
   "name": "functional-strudel",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "description": "Experimental typed functional adaptation of the core Strudel library",
   "scripts": {
     "typecheck": "tsc --noEmit"
@@ -10,5 +11,8 @@
   "license": "AGPL-3.0-or-later",
   "devDependencies": {
     "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "fraction.js": "^5.2.1"
   }
 }

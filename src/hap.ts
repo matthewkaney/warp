@@ -7,6 +7,10 @@ export type Hap<T> = Readonly<{
   // context: object; // Skip context for now
 }>;
 
+export function wholeOrPart<T>({ whole, part }: Hap<T>) {
+  return whole ?? part;
+}
+
 export function withSpan<T>(f: (span: Span) => Span, hap: Hap<T>): Hap<T> {
   return {
     ...hap,

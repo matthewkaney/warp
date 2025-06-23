@@ -1,17 +1,19 @@
-export type Time = number;
+import { Fraction } from "fraction.js";
 
-export function sam(time: Time): Time {
-  return Math.floor(time);
-}
-
-export function nextSam(time: Time): Time {
-  return sam(time) + 1;
-}
+type Time = number;
 
 export type Span = Readonly<{
   begin: Time;
   end: Time;
 }>;
+
+export function sam(time: Time) {
+  return Math.floor(time);
+}
+
+export function nextSam(time: Time) {
+  return sam(time) + 1;
+}
 
 export function wholeCycle(time: Time): Span {
   return {
