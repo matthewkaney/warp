@@ -1,6 +1,6 @@
 import { Fraction } from "fraction.js";
 
-type Time = number;
+export type Time = number;
 
 export type Span = Readonly<{
   begin: Time;

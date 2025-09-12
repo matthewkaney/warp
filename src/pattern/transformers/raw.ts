@@ -3,6 +3,8 @@ import { Pattern, withHapTime, withQueryTime } from "../pattern";
 import { pure, silence } from "../primitives/raw";
 import { setSteps } from "../stepwise/raw";
 
+import { patternify } from "../../patternify";
+
 // Transformations on time
 export function fast<T>(factor: Time, pat: Pattern<T>) {
   return factor === 0
@@ -13,9 +15,13 @@ export function fast<T>(factor: Time, pat: Pattern<T>) {
       );
 }
 
-export function slow<T>(factor: Time, pat: Pattern<T>) {
-  return fast(-factor, pat);
+export namespace Plain {
+  export function slow<T>(factor: Time, pat: Pattern<T>) {
+    return fast(-factor, pat);
+  }
 }
+
+const slow = patternify(Plain.slow);
 
 export function early<T>(offset: Time, pat: Pattern<T>) {
   return withHapTime(
@@ -28,6 +34,6 @@ export function late<T>(offset: Time, pat: Pattern<T>) {
   return early(-offset, pat);
 }
 
-export function segment<A>(rate: number, pat: Pattern<A>) {
-  return setSteps(rate, struct(fast(rate, pure(true)), pat));
-}
+// export function segment<A>(rate: number, pat: Pattern<A>) {
+//   return setSteps(rate, struct(fast(rate, pure(true)), pat));
+// }
