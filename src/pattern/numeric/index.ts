@@ -1,5 +1,5 @@
 import { Pattern, withValue } from "../pattern";
-import { signal } from "../primitives/raw";
+import { signal } from "../primitives";
 
 // Transformations on values
 export function toBipolar(pat: Pattern<number>) {
