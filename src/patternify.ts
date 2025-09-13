@@ -41,3 +41,13 @@ export function patternify<T, Args extends unknown[]>(
     return pat;
   };
 }
+
+type Curried<F extends (...args: any[]) => unknown> = Parameters<F> extends [infer FirstArg, ...infer Rest]
+  ? (arg: FirstArg) => Curried<(...args: Rest) => ReturnType<F>>
+  : ReturnType<F>;
+
+export function curry<T, Args extends [unknown, ...unknown[]], R>(
+  func: (...args: Args) => R
+): Curried<(...args: Args) => R> {
+  throw new Error();
+}
