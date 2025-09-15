@@ -1,15 +1,29 @@
-import { Pattern, withQueryTime, withHapTime } from "../pattern";
+import { Pattern } from "../pattern";
+import { late } from "../transformers/raw";
 
 import { lcm, mod } from "../../helpers";
 import { silence } from "../primitives/raw";
 import { sam } from "../../time";
-import { late } from "../transformers/raw";
 
 export function stack<T>(pats: Pattern<T>[]): Pattern<T> {
   return {
     query: (state) => pats.flatMap((pat) => pat.query(state)),
     steps: pats.map(({ steps }) => steps).reduce(lcm, 1),
   };
+}
+
+export function stackWith<A, B>(func: (pat: Pattern<A>, index: number) => Pattern<B>, pats: Pattern<A>[]) {
+  return stack(pats.map(func));
+}
+
+export function feedback<A>(func: (pat: Pattern<A>) => Pattern<A>, num: number, pat: Pattern<A>) {
+  let pats: Pattern<A>[] = [pat];
+
+  for (let i = 1; i < num; ++i) {
+    pats.push(func(pats[i - 1]));
+  }
+
+  return stack(pats);
 }
 
 export function slowCat<T>(pats: Pattern<T>[]): Pattern<T> {
